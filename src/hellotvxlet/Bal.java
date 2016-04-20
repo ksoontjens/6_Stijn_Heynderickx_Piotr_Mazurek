@@ -24,13 +24,14 @@ int msizeX;
     public Bal(int x, int y, int sizeX, int sizeY){
         //moet verplicht op eerste regel de super aanroepen
         super(x,y,sizeX,  sizeY);
+        this.setBordersEnabled(true);
     mx= x;
     my = y;
     msizeX = sizeX;
     msizeY = sizeY;
      mijnImg=   this.getToolkit().getImage("bal.png");
-   MediaTracker mt = new MediaTracker(this);
-     mt.addImage(mijnImg, HVisible.NORMAL_STATE);
+      MediaTracker mt = new MediaTracker(this);
+     mt.addImage(mijnImg, 1);
      try{
          mt.waitForAll();
        
@@ -41,9 +42,9 @@ int msizeX;
      }
      
      this.setGraphicContent(mijnImg, HVisible.NORMAL_STATE);
-  this.setSize(mijnImg.getWidth(null)/16,mijnImg.getHeight(null)/16);
+   //  this.setSize(msizeX,msizeY);
+     this.setBounds(x, y, msizeX, msizeY);
     
-  System.out.println("hejkes den bal is back"+mt);
      mt.isErrorAny();
      }
     
@@ -51,9 +52,10 @@ int msizeX;
       
       
     }
-     public void paint(Graphics g){
-         g.drawImage(mijnImg,0,0,null);
+     public void Move(){
+         my -= 10;
      }
+    
 }
     
     

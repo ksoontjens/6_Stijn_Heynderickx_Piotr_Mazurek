@@ -11,10 +11,11 @@ import org.havi.ui.*;
 
 
 public class HelloTVXlet implements Xlet,UserEventListener{
-static HScene scene = null; //dit hoort bij de klasse niet het object
-static Subject publisher = null;
-Balk balk = null;
-
+    
+    static HScene scene = null; //dit hoort bij de klasse niet het object
+    static Subject publisher = null;
+    Balk balk = null;
+    Bal balleke = null;
 
    public static HScene getScene(){
     return scene;
@@ -30,9 +31,6 @@ Balk balk = null;
         
         scene  = HSceneFactory.getInstance().getDefaultHScene();
         
-
-   
-        
          publisher = new Subject();
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(publisher,0,10); //elke 10ms
@@ -47,7 +45,7 @@ Balk balk = null;
                       scene.add(blokje);
                    }
                }
-        Bal balleke =  new Bal(250,400,0,0);
+        balleke =  new Bal(25,40,200,200);
         scene.add(balleke);
         publisher.register(balleke);
     
@@ -66,6 +64,7 @@ Balk balk = null;
         
         UserEventRepository repos = new UserEventRepository("Keys");
         repos.addAllArrowKeys();
+        repos.addKey(HRcEvent.VK_SPACE);
         manager.addUserEventListener(this, repos);
         
         
@@ -78,9 +77,12 @@ Balk balk = null;
           case HRcEvent.VK_LEFT: 
               balk.MoveLeft();
               break;
-           case HRcEvent.VK_RIGHT: balk.MoveRight();
+           case HRcEvent.VK_RIGHT: 
+              balk.MoveRight();
               break;   
-      
+            case HRcEvent.VK_SPACE:
+              System.out.println("miauw");
+              break;
       
       }
       
