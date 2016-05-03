@@ -1,6 +1,7 @@
 package hellotvxlet;
 
 
+import java.awt.Rectangle;
 import java.util.Timer;
 import javax.tv.xlet.*;
 import org.havi.ui.event.*;
@@ -10,12 +11,13 @@ import org.havi.ui.*;
 
 
 
-public class HelloTVXlet implements Xlet,UserEventListener{
+public class HelloTVXlet implements Xlet,UserEventListener, ObserverInterface{
     
     static HScene scene = null; //dit hoort bij de klasse niet het object
     static Subject publisher = null;
     Balk balk = null;
     Bal balleke = null;
+    Rectangle blokjesbounds[];
 
    public static HScene getScene(){
     return scene;
@@ -28,14 +30,13 @@ public class HelloTVXlet implements Xlet,UserEventListener{
     }
 
     public void initXlet(XletContext ctx) throws XletStateChangeException {
-        
         scene  = HSceneFactory.getInstance().getDefaultHScene();
         
          publisher = new Subject();
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(publisher,0,10); //elke 10ms
         
-               balk = new Balk(180,450,200,20);
+        balk = new Balk(180,450,200,20);
         scene.add(balk);
         int breedte = 60;
         int hoogte = 40;
@@ -45,13 +46,11 @@ public class HelloTVXlet implements Xlet,UserEventListener{
                       scene.add(blokje);
                    }
                }
-        balleke =  new Bal(25,40,200,200);
+        balleke =  new Bal(25,40,40,40);
         scene.add(balleke);
-        publisher.register(balleke);
-    
           scene.validate();
         scene.setVisible(true);
-           
+        publisher.register(this);
             }
 
     public void pauseXlet() {
@@ -65,9 +64,7 @@ public class HelloTVXlet implements Xlet,UserEventListener{
         UserEventRepository repos = new UserEventRepository("Keys");
         repos.addAllArrowKeys();
         repos.addKey(HRcEvent.VK_SPACE);
-        manager.addUserEventListener(this, repos);
-        
-        
+        manager.addUserEventListener(this, repos);     
     }
 
     
@@ -81,14 +78,26 @@ public class HelloTVXlet implements Xlet,UserEventListener{
               balk.MoveRight();
               break;   
             case HRcEvent.VK_SPACE:
-              System.out.println("miauw");
+               
+               publisher.register(balleke);
               break;
-      
-      }
+            }
       
       }
     }
     
+    public void CollideBalk(){
+        Rectangle balkbounds = balk.getBounds();
+        Rectangle ballekebounds = balleke.getBounds();
+        if(ballekebounds.intersects(balkbounds))
+        {
+            balleke.changeY();
+        }
+    }
+
+    public void update(int tijd) {
+       CollideBalk();
+    }
  
    
 }

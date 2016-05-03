@@ -15,13 +15,17 @@ public class Subject extends TimerTask implements SubjectInterface {
         ArrayList  oblijst = new ArrayList();
         int tijd = 0;
      public void run() {
+       
+         tijd++;
          for(int i =0;i<oblijst.size();i++){
-             ((ObserverInterface)oblijst.get(0)).update(tijd);
+               //System.out.println("run:"+);
+             ((ObserverInterface)oblijst.get(i)).update(tijd);
          }
        
     }
 
     public void register(ObserverInterface ob) {
+        System.out.println("REGISTER: "+ob.toString());
        oblijst.add(ob);
     }
 

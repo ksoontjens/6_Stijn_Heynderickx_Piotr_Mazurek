@@ -28,7 +28,7 @@ int msizeX;
     msizeX = sizeX;
     msizeY = sizeY;
      mijnImg=   this.getToolkit().getImage("spaceship.png");
-   MediaTracker mt = new MediaTracker(this);
+     MediaTracker mt = new MediaTracker(this);
      mt.addImage(mijnImg, HVisible.NORMAL_STATE);
      try{
          mt.waitForAll();
@@ -53,7 +53,7 @@ int msizeX;
      mx -= 10;
     
      if(mx <= 0){
-     mx =0;
+        mx =0;
      }
       this.setBounds(mx,my,msizeX,msizeY);
      }
@@ -63,7 +63,7 @@ int msizeX;
      
      mx += 10;
      if(mx >= 520){
-     mx =520;
+        mx =520;
      }
       this.setBounds(mx,my,msizeX,msizeY);
      }
