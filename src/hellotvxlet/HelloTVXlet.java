@@ -1,6 +1,7 @@
 package hellotvxlet;
 
 
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.Timer;
 import javax.tv.xlet.*;
@@ -17,7 +18,8 @@ public class HelloTVXlet implements Xlet,UserEventListener, ObserverInterface{
     static Subject publisher = null;
     Balk balk = null;
     Bal balleke = null;
-    Rectangle blokjesbounds[];
+    Rectangle[][] blokjesbounds = new Rectangle[5][3];
+    Balk[][] blokjes = new Balk[5][3];
 
    public static HScene getScene(){
     return scene;
@@ -40,15 +42,17 @@ public class HelloTVXlet implements Xlet,UserEventListener, ObserverInterface{
         scene.add(balk);
         int breedte = 60;
         int hoogte = 40;
-               for(int i=1;i<5;i++){
-                   for(int j=1;j<4;j++){
-                      Balk blokje = new Balk(110*i,50*j,breedte,hoogte);
+               for(int i=0;i<4;i++){
+                   for(int j=0;j<3;j++){
+                      Balk blokje = new Balk(110+110*i,50+50*j,breedte,hoogte);
                       scene.add(blokje);
+                      blokjesbounds[i][j] = blokje.getRect();
+                      blokjes[i][j] = blokje;
                    }
                }
         balleke =  new Bal(25,40,40,40);
         scene.add(balleke);
-          scene.validate();
+        scene.validate();
         scene.setVisible(true);
         publisher.register(this);
             }
@@ -60,7 +64,6 @@ public class HelloTVXlet implements Xlet,UserEventListener, ObserverInterface{
     public void startXlet() throws XletStateChangeException {
         //event manager aanvragen
         EventManager  manager = EventManager.getInstance();
-        
         UserEventRepository repos = new UserEventRepository("Keys");
         repos.addAllArrowKeys();
         repos.addKey(HRcEvent.VK_SPACE);
@@ -77,8 +80,7 @@ public class HelloTVXlet implements Xlet,UserEventListener, ObserverInterface{
            case HRcEvent.VK_RIGHT: 
               balk.MoveRight();
               break;   
-            case HRcEvent.VK_SPACE:
-               
+            case HRcEvent.VK_SPACE:  
                publisher.register(balleke);
               break;
             }
@@ -87,11 +89,43 @@ public class HelloTVXlet implements Xlet,UserEventListener, ObserverInterface{
     }
     
     public void CollideBalk(){
-        Rectangle balkbounds = balk.getBounds();
-        Rectangle ballekebounds = balleke.getBounds();
+        Rectangle balkbounds = balk.getRect();
+        Rectangle ballekebounds = balleke.getRect();
         if(ballekebounds.intersects(balkbounds))
         {
-            balleke.changeY();
+            balleke.setYDir(-1);
+        }
+        for(int i=0;i<4;i++){
+            for(int j=0;j<3;j++){
+                    if(ballekebounds.intersects(blokjesbounds[i][j])){
+                        int ballLeft =  ballekebounds.x;
+                        int ballHeight =  ballekebounds.height;
+                        int ballWidth =  ballekebounds.width;
+                        int ballTop =  ballekebounds.y;
+
+                        Point pointRight = new Point(ballLeft + ballWidth + 1, ballTop);
+                        Point pointLeft = new Point(ballLeft - 1, ballTop);
+                        Point pointTop = new Point(ballLeft, ballTop - 1);
+                        Point pointBottom = new Point(ballLeft, ballTop + ballHeight + 1);
+                        if(!blokjes[i][j].isDestroyed()){
+                            if (blokjesbounds[i][j].contains(pointRight)) {
+                            balleke.setXDir(-1);
+                            } else if (blokjesbounds[i][j].contains(pointLeft)) {
+                            balleke.setXDir(1);
+                            }
+
+                            if (blokjesbounds[i][j].contains(pointTop)) {
+                            balleke.setYDir(1);
+                            } else if (blokjes[i][j].contains(pointBottom)) {
+                            balleke.setYDir(-1);
+                            }
+                        }
+                        
+                        blokjes[i][j].setDestroyed(true);
+                        scene.remove(blokjes[i][j]);
+                        scene.repaint();
+                    }
+            }
         }
     }
 

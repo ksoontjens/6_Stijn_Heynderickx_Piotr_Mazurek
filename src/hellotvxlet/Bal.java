@@ -53,7 +53,6 @@ int richtingY = -1;
      }
     
      public void update(int tijd) {
-    //     System.out.println("update bal");
       my = my + richtingY;
       mx = mx + richtingX;
       if(mx<=0){
@@ -70,8 +69,15 @@ int richtingY = -1;
         }
       this.setLocation(mx, my);
     }
-    public void changeY()
-    {
-        richtingY = -1;
+    public void setXDir(int x) {
+        richtingX = x;
+    }
+
+    public void setYDir(int y) {
+        richtingY = y;
+    }
+    Rectangle getRect() {
+        return new Rectangle(mx, my,
+                msizeX, msizeY);
     }
 }

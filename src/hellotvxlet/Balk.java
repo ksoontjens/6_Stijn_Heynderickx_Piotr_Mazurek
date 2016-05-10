@@ -9,13 +9,14 @@ import java.awt.Color;
 import java.awt.Image;
 
 import java.awt.MediaTracker;
+import java.awt.Rectangle;
 import org.havi.ui.HVisible;
 
 
 public class Balk extends Sprite{
 
 Image mijnImg;
-
+public boolean destroyed; 
 int mx;
 int my;
 int msizeY;
@@ -67,7 +68,19 @@ int msizeX;
      }
       this.setBounds(mx,my,msizeX,msizeY);
      }
+     
+     Rectangle getRect() {
+        return new Rectangle(mx, my,
+                msizeX, msizeY);
     }
+     public boolean isDestroyed() {
+        
+        return destroyed;
+    }
+     public void setDestroyed(boolean val) {
+        destroyed = val;
+    }
+}
     
     
 

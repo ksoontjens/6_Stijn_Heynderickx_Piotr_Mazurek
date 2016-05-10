@@ -25,7 +25,6 @@ public class Subject extends TimerTask implements SubjectInterface {
     }
 
     public void register(ObserverInterface ob) {
-        System.out.println("REGISTER: "+ob.toString());
        oblijst.add(ob);
     }
 
