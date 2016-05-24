@@ -21,13 +21,15 @@ int mx;
 int my;
 int msizeY;
 int msizeX;
-    public Balk(int x, int y, int sizeX, int sizeY){
+Color mColor;
+    public Balk(int x, int y, int sizeX, int sizeY, Color color){
         //moet verplicht op eerste regel de super aanroepen
         super(x,y,sizeX,  sizeY);
     mx= x;
     my = y;
     msizeX = sizeX;
     msizeY = sizeY;
+    mColor = color;
      mijnImg=   this.getToolkit().getImage("spaceship.png");
      MediaTracker mt = new MediaTracker(this);
      mt.addImage(mijnImg, HVisible.NORMAL_STATE);
@@ -40,11 +42,10 @@ int msizeX;
    //  this.setGraphicContent(mijnImg, HVisible.NORMAL_STATE);
     // this.setSize(mijnImg.getWidth(this),mijnImg.getHeight(this));
     
-    this.setBackground(Color.BLUE);
+    this.setBackground(mColor);
     this.setBackgroundMode(HVisible.BACKGROUND_FILL);
      
      }
-    
      public void update(int tijd) {
       
       

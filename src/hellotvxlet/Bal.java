@@ -7,7 +7,6 @@ package hellotvxlet;
 
 
 import java.awt.*;
-
 import java.awt.MediaTracker;
 import org.havi.ui.HVisible;
 
@@ -64,9 +63,6 @@ int richtingY = -1;
       if(my<=0){
             richtingY = 1;
         }
-      if(my>= 576-this.getHeight()){
-            richtingY = -1;
-        }
       this.setLocation(mx, my);
     }
     public void setXDir(int x) {
@@ -76,6 +72,11 @@ int richtingY = -1;
     public void setYDir(int y) {
         richtingY = y;
     }
+    
+    public int getXDir() {
+        return richtingX;
+    }
+    
     Rectangle getRect() {
         return new Rectangle(mx, my,
                 msizeX, msizeY);
